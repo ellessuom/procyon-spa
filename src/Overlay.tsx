@@ -1,10 +1,9 @@
 import { useLayoutEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { SplitText } from 'gsap/SplitText'
-import { motion } from 'motion/react'
 import { FiMail } from 'react-icons/fi'
 import { SiDiscord, SiInstagram, SiSteam, SiX, SiYoutube } from 'react-icons/si'
-import { tl } from './timeline'
+import { FLICKER, tl } from './timeline'
 
 gsap.registerPlugin(SplitText)
 
@@ -18,22 +17,24 @@ const LINKS = [
   { label: 'Steam', href: '#', Icon: SiSteam },
 ]
 
-const spring = { type: 'spring', stiffness: 420, damping: 16 } as const
+const RGB_SPLIT = '-3px 0px 0px rgba(0, 229, 255, 0.85), 3px 0px 0px rgba(255, 40, 90, 0.85)'
+const RGB_NONE = '0px 0px 0px rgba(0, 229, 255, 0), 0px 0px 0px rgba(255, 40, 90, 0)'
 
 export default function Overlay() {
   const root = useRef<HTMLElement>(null!)
 
-  // The page text is part of the same intro timeline, landing as the title card settles.
+  // The page text glitches in as part of the same intro timeline, right after the wordmark.
   useLayoutEffect(() => {
     const q = gsap.utils.selector(root)
-    const split = SplitText.create(q('.tagline'), { type: 'words,chars', mask: 'chars' })
+    const split = SplitText.create(q('.tagline'), { type: 'chars' })
     const intro = gsap
       .timeline()
-      .from(split.chars, { yPercent: 110, duration: 1, ease: 'expo.out', stagger: 0.02 }, 0)
-      .from(q('.date'), { autoAlpha: 0, y: 8, duration: 1, ease: 'power3.out' }, 0.5)
-      .from(q('.socials li'), { autoAlpha: 0, y: 14, duration: 0.9, ease: 'expo.out', stagger: 0.06 }, 0.7)
-      .from(q('.corner'), { autoAlpha: 0, duration: 1.2, ease: 'power2.out' }, 1)
-    tl.add(intro, 5.1)
+      .from(split.chars, { autoAlpha: 0, duration: 0.01, stagger: { each: 0.018, from: 'random' } }, 0)
+      .fromTo(q('.tagline'), { textShadow: RGB_SPLIT }, { textShadow: RGB_NONE, duration: 0.6, ease: FLICKER }, 0.05)
+      .from(q('.date'), { autoAlpha: 0, duration: 0.3, ease: FLICKER }, 0.3)
+      .from(q('.socials li'), { autoAlpha: 0, duration: 0.3, ease: FLICKER, stagger: 0.04 }, 0.4)
+      .from(q('.corner'), { autoAlpha: 0, duration: 0.4, ease: FLICKER }, 0.5)
+    tl.add(intro, 1.45)
     return () => {
       tl.remove(intro)
       split.revert()
@@ -53,23 +54,9 @@ export default function Overlay() {
         <ul className="socials">
           {LINKS.map(({ label, href, Icon }) => (
             <li key={label}>
-              <motion.a
-                href={href}
-                aria-label={label}
-                initial="rest"
-                whileHover="hover"
-                whileFocus="hover"
-                whileTap="tap"
-                variants={{ rest: { y: 0, scale: 1 }, hover: { y: -3, scale: 1.12 }, tap: { scale: 0.86 } }}
-                transition={spring}
-              >
-                <motion.span
-                  className="ring"
-                  variants={{ rest: { scale: 0.5, opacity: 0 }, hover: { scale: 1, opacity: 1 }, tap: { scale: 1.25, opacity: 0 } }}
-                  transition={spring}
-                />
+              <a href={href} aria-label={label}>
                 <Icon aria-hidden />
-              </motion.a>
+              </a>
             </li>
           ))}
         </ul>

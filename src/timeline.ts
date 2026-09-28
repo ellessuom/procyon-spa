@@ -1,53 +1,63 @@
 import gsap from 'gsap'
+import { RoughEase } from 'gsap/EasePack'
+
+gsap.registerPlugin(RoughEase)
+
+/** Jittery on/off flicker that settles on its end value (GSAP RoughEase). */
+export const FLICKER = 'rough({ strength: 3, points: 14, template: none, taper: out, randomize: true, clamp: true })'
 
 // Every animated value lives here. GSAP writes, the scene reads each frame.
 export const anim = {
-  camZ: 10,
-  star: 0,
-  streak: 0,
-  aberration: 0,
-  field: 0,
-  dots: 0, // particle opacity
-  gather: 0, // particles: scattered stars → mark
-  solid: 0, // 3D mark opacity
-  hot: 0, // mark glow as it fuses
+  vis: 0, // glitch shape visibility
+  morph: 0, // 0 = circle, 1 = skull
+  spin: Math.PI * 2.5, // radians left to spin (1.25 turns → 0)
+  distort: 1, // noise wobble on the circle
+  fill: 0, // 0 = ring outline, 1 = filled
+  glitch: 0, // slice jitter + RGB split on the shape
+  solid: 0, // 3D mark
+  hot: 0, // warm glow on the 3D mark right after the cut
+  aberration: 0, // extra full-screen RGB split on top of the permanent thin one
   light: 0,
-  lightX: -2.4, // spotlight sweep during the intro
-  handoff: 0, // 0 = intro drives the light, 1 = the visitor does
+  handoff: 0, // 0 = light rests on the skull, 1 = it follows the visitor
   letters: Array.from({ length: 14 }, () => ({ p: 0 })), // PROCYON + STUDIOS
 }
 
-export const tl = gsap
-  .timeline({ paused: true })
-  // camera: one slow continuous push across the whole intro
-  .to(anim, { camZ: 8, duration: 6.5, ease: 'power2.out' }, 0)
-  // 1 · ignition: the star swells, overshoots, then settles as the flare shoots out
-  .to(anim, { star: 1.6, duration: 0.6, ease: 'power4.in' }, 0.3)
-  .to(anim, { aberration: 1, duration: 0.15, ease: 'power2.in' }, 0.75)
-  .to(anim, { star: 1, duration: 1.2, ease: 'expo.out' }, 0.9)
-  .to(anim, { streak: 1, duration: 1.2, ease: 'expo.out' }, 0.9)
-  .to(anim, { aberration: 0, duration: 1, ease: 'expo.out' }, 0.9)
-  .to(anim, { field: 1, duration: 1.6, ease: 'power2.out' }, 1)
-  // 2 · the stars are drawn in and shape the mark; the star collapses into it
-  .to(anim, { dots: 1, duration: 1, ease: 'power2.out' }, 1)
-  .to(anim, { gather: 1, duration: 2.1, ease: 'none' }, 1.6)
-  .to(anim, { star: 0, duration: 0.8, ease: 'power2.in' }, 3)
-  .to(anim, { streak: 0, duration: 0.6, ease: 'power3.in' }, 3)
-  // 3 · the mark fuses white-hot, turns solid and cools; a light sweeps across it
-  .to(anim, { hot: 1, duration: 0.3, ease: 'power2.in' }, 3.3)
-  .to(anim, { solid: 1, duration: 0.5, ease: 'power2.out' }, 3.4)
-  .to(anim, { dots: 0, duration: 0.6, ease: 'power2.in' }, 3.5)
-  .to(anim, { hot: 0, duration: 1.4, ease: 'power2.out' }, 3.6)
-  .to(anim, { light: 1, duration: 0.6, ease: 'power2.out' }, 3.8)
-  .to(anim, { lightX: 2.4, duration: 1.6, ease: 'power2.inOut' }, 3.8)
-  // 4 · title card
-  .to(anim.letters.slice(0, 7), { p: 1, duration: 1.1, ease: 'expo.out', stagger: 0.07 }, 4.2)
-  .to(anim.letters.slice(7), { p: 1, duration: 1.1, ease: 'expo.out', stagger: 0.05 }, 4.65)
-  // 5 · the light is handed to the visitor (Overlay.tsx adds the page text at 5.1)
-  .to(anim, { handoff: 1, duration: 1.4, ease: 'power2.inOut' }, 5.4)
+export const tl = gsap.timeline({ paused: true })
+
+// short glitch spike on the shape
+const pulse = (at: number, amount: number, len = 0.1) =>
+  tl.set(anim, { glitch: amount }, at).to(anim, { glitch: 0.12, duration: len, ease: 'power2.out' }, at + 0.02)
+
+// 1 · a circle hacks its way in
+tl.to(anim, { vis: 1, duration: 0.25, ease: FLICKER }, 0.15)
+pulse(0.15, 1, 0.2)
+
+// 2 · it spins, wobbles and morphs into the skull, filling in as it lands
+tl.to(anim, { spin: 0, duration: 0.8, ease: 'expo.out' }, 0.3)
+  .to(anim, { distort: 0, duration: 0.7, ease: 'power2.in' }, 0.35)
+  .to(anim, { morph: 1, duration: 0.7, ease: 'power3.inOut' }, 0.35)
+  .to(anim, { fill: 1, duration: 0.35, ease: 'power2.in' }, 0.75)
+pulse(0.55, 0.8)
+pulse(0.8, 0.6)
+
+// 3 · hack burst, then a hard cut to the solid 3D mark
+tl.set(anim, { glitch: 1 }, 1.0)
+  .to(anim, { aberration: 1, duration: 0.08, ease: 'power2.in' }, 1.0)
+  .set(anim, { vis: 0, glitch: 0, solid: 1, hot: 1 }, 1.12)
+  .to(anim, { aberration: 0.3, duration: 0.08, ease: 'power2.out' }, 1.12)
+  .to(anim, { hot: 0, duration: 0.6, ease: 'power2.out' }, 1.12)
+  .to(anim, { light: 1, duration: 0.6, ease: 'power2.out' }, 1.15)
+
+// 4 · the wordmark glitches in letter by letter under a second RGB flare
+  .to(anim.letters, { p: 1, duration: 0.14, ease: 'steps(3)', stagger: 0.035 }, 1.2)
+  .to(anim, { aberration: 0.7, duration: 0.05, ease: 'none' }, 1.2)
+  .to(anim, { aberration: 0, duration: 0.45, ease: FLICKER }, 1.25)
+
+// 5 · the light goes to the visitor (Overlay.tsx adds the page text at 1.45)
+  .to(anim, { handoff: 1, duration: 1, ease: 'power2.inOut' }, 1.5)
 
 const params = new URLSearchParams(location.search)
-// ?t=2.4 freezes the intro on that second (for screenshots)
+// ?t=0.8 freezes the intro on that second (for screenshots)
 const frozenAt = params.get('t')
 // Dev ignores the OS setting so the intro can be worked on; ?reduced tests that path.
 const reducedMotion =

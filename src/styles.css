@@ -71,7 +71,6 @@ body {
 }
 
 .socials a {
-  position: relative;
   display: grid;
   place-items: center;
   width: 44px;
@@ -79,21 +78,13 @@ body {
   font-size: 18px;
   color: rgb(242 234 211 / 0.7);
   pointer-events: auto;
-  transition: color 0.3s;
 }
 
-.socials a:hover,
+/* no hover effect; keyboard focus stays visible */
 .socials a:focus-visible {
-  color: var(--ivory);
-  outline: none;
-}
-
-.ring {
-  position: absolute;
-  inset: 2px;
-  border: 1px solid var(--bronze);
+  outline: 1px solid var(--ivory);
+  outline-offset: -4px;
   border-radius: 50%;
-  box-shadow: 0 0 18px rgb(200 161 90 / 0.35);
 }
 
 .sr-only {

@@ -11,7 +11,7 @@ export default function App() {
         aria-hidden
         dpr={[1, 2]}
         gl={{ antialias: false }}
-        camera={{ position: [0, 0, 10], fov: 35 }}
+        camera={{ position: [0, 0, 8], fov: 35 }}
         fallback={<div className="fallback" dangerouslySetInnerHTML={{ __html: markSvg + wordSvg }} />}
       >
         <Scene />
