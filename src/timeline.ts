@@ -17,10 +17,13 @@ export const anim = {
   solid: 0, // 3D mark
   hot: 0, // warm glow on the 3D mark right after the cut
   aberration: 0, // extra full-screen RGB split on top of the permanent thin one
-  light: 0,
-  handoff: 0, // 0 = light rests on the skull, 1 = it follows the visitor
   letters: Array.from({ length: 14 }, () => ({ p: 0 })), // PROCYON + STUDIOS
+  section: 0, // 0 = A (logo centred), 1 = B (logo small, top-centre)
+  glitchFx: 0, // 1 = full-canvas glitch tearing (during the A ↔ B jump)
 }
+
+/** Where the logo sits in section B, in world units — measured from the DOM (#logo-slot) by Overlay.tsx. */
+export const pose = { y: 1.5, scale: 0.5 }
 
 export const tl = gsap.timeline({ paused: true })
 
@@ -46,21 +49,18 @@ tl.set(anim, { glitch: 1 }, 1.0)
   .set(anim, { vis: 0, glitch: 0, solid: 1, hot: 1 }, 1.12)
   .to(anim, { aberration: 0.3, duration: 0.08, ease: 'power2.out' }, 1.12)
   .to(anim, { hot: 0, duration: 0.6, ease: 'power2.out' }, 1.12)
-  .to(anim, { light: 1, duration: 0.6, ease: 'power2.out' }, 1.15)
 
 // 4 · the wordmark glitches in letter by letter under a second RGB flare
   .to(anim.letters, { p: 1, duration: 0.14, ease: 'steps(3)', stagger: 0.035 }, 1.2)
   .to(anim, { aberration: 0.7, duration: 0.05, ease: 'none' }, 1.2)
   .to(anim, { aberration: 0, duration: 0.45, ease: FLICKER }, 1.25)
-
-// 5 · the light goes to the visitor (Overlay.tsx adds the page text at 1.45)
-  .to(anim, { handoff: 1, duration: 1, ease: 'power2.inOut' }, 1.5)
+// (Overlay.tsx flickers the corners and the SCROLL cue in at 1.45)
 
 const params = new URLSearchParams(location.search)
 // ?t=0.8 freezes the intro on that second (for screenshots)
 const frozenAt = params.get('t')
 // Dev ignores the OS setting so the intro can be worked on; ?reduced tests that path.
-const reducedMotion =
+export const reducedMotion =
   params.has('reduced') || (!import.meta.env.DEV && matchMedia('(prefers-reduced-motion: reduce)').matches)
 
 export function startIntro() {
