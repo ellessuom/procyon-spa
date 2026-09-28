@@ -1,0 +1,12 @@
+.fallback {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 24px;
+  height: 70%;
+  color: var(--ivory);
+}
+
+.fallback svg {
+  width: min(40vw, 200px);
+}

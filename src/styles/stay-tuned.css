@@ -1,0 +1,87 @@
+/* ── section B ─────────────────────────────────────────── */
+
+.b {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: clamp(48px, 7vh, 80px) clamp(20px, 3vw, 40px) clamp(20px, 4vh, 44px);
+}
+
+/* empty: in section B the 3D skull is centred in this box (useLogoSlot measures it) */
+#logo-slot {
+  flex: 0 1 22vh; /* may shrink on short screens */
+  min-height: 120px;
+}
+
+/* anchored to the bottom, as in the reference */
+.b-grid {
+  display: grid;
+  grid-template-columns: 1fr minmax(300px, 620px);
+  align-items: end;
+  gap: 32px 64px;
+  margin-top: auto;
+  padding-top: clamp(20px, 4vh, 48px);
+}
+
+.date {
+  margin: 0 0 14px;
+  color: var(--gold);
+}
+
+.heading {
+  max-width: 7.5em; /* breaks as SOMETHING IS / BEING MADE */
+  margin: 0;
+  font: 400 clamp(44px, 6vw, 88px) / 0.92 var(--display);
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+}
+
+/* gold block cursor; GSAP shows the span, the pseudo-element blinks */
+.cursor {
+  display: inline-block;
+  vertical-align: baseline;
+  margin-left: 0.14em;
+}
+
+.cursor::after {
+  content: '';
+  display: block;
+  width: 0.34em;
+  height: 0.68em;
+  background: var(--gold);
+  animation: blink 1.1s steps(1) infinite;
+}
+
+.description {
+  max-width: 32ch;
+  margin: 22px 0 0;
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.5;
+  color: rgb(242 234 211 / 0.7);
+}
+
+/* the studio name in the display face, in caps as tall as the paragraph's
+   (cap height: Instrument Sans 0.72em, Anton 0.86em → 0.72 / 0.86 ≈ 0.84em) */
+.description .brand {
+  font-family: var(--display);
+  font-size: 0.84em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 760px) {
+  .b-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  #logo-slot {
+    flex-basis: 18vh;
+  }
+
+  .heading {
+    font-size: clamp(40px, 12vw, 60px);
+  }
+}

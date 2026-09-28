@@ -1,0 +1,27 @@
+.socials {
+  display: flex;
+  gap: 6px;
+  margin: 24px 0 0 -10px;
+  padding: 0;
+  list-style: none;
+}
+
+.socials a {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  color: var(--muted);
+  pointer-events: auto;
+  transition:
+    color 0.25s,
+    filter 0.25s;
+}
+
+/* simple glow-up on hover / focus */
+.socials a:hover,
+.socials a:focus-visible {
+  color: var(--ivory);
+  filter: drop-shadow(0 0 6px rgb(242 234 211 / 0.7));
+}

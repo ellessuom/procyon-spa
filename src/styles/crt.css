@@ -1,0 +1,66 @@
+/* ── CRT layer: over everything, lets every click / hover / scroll through ── */
+
+.crt {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* faint light scanlines (dark ones would vanish on black) + a warm phosphor lift in the middle */
+.crt::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(to bottom, rgb(242 234 211 / 0.03) 0 1px, transparent 1px 3px),
+    radial-gradient(ellipse 70% 60% at 50% 45%, rgb(242 234 211 / 0.035), transparent 75%);
+  animation: crt-flicker 3.2s steps(1) infinite;
+}
+
+/* soft refresh band rolling down the screen */
+.crt::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 24vh;
+  background: linear-gradient(to bottom, transparent, rgb(242 234 211 / 0.028) 50%, transparent);
+  animation: crt-roll 8s linear infinite;
+}
+
+@keyframes crt-roll {
+  from {
+    transform: translateY(-30vh);
+  }
+  to {
+    transform: translateY(110vh);
+  }
+}
+
+@keyframes crt-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  31% {
+    opacity: 0.82;
+  }
+  34% {
+    opacity: 1;
+  }
+  67% {
+    opacity: 0.9;
+  }
+  69% {
+    opacity: 1;
+  }
+}
+
+.reduced .crt::before {
+  animation: none;
+}
+
+.reduced .crt::after {
+  display: none;
+}

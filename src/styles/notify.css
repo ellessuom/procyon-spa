@@ -1,0 +1,76 @@
+.notify {
+  margin: 0;
+}
+
+.field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 14px;
+  border-bottom: 1px solid rgb(242 234 211 / 0.3);
+}
+
+.field input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--ivory);
+  font: 400 clamp(17px, 1.4vw, 20px) var(--sans);
+  pointer-events: auto;
+}
+
+.field input::placeholder {
+  color: rgb(242 234 211 / 0.45);
+}
+
+.field button {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border: 0;
+  background: none;
+  color: var(--ivory);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.field button svg {
+  font-size: 18px;
+  transition: translate 0.25s;
+}
+
+.field button:hover svg,
+.field button:focus-visible svg {
+  translate: 4px 0;
+}
+
+.noted {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  margin: 0;
+  color: var(--gold);
+}
+
+.notify.is-noted .noted {
+  display: flex;
+}
+
+.notify.is-noted input,
+.notify.is-noted button {
+  visibility: hidden;
+}
+
+.field input:focus-visible {
+  outline: none; /* the field's underline brightens instead */
+}
+
+.field:focus-within {
+  border-bottom-color: var(--ivory);
+}
