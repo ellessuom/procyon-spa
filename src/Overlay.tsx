@@ -101,7 +101,8 @@ export default function Overlay() {
               <span className="cursor" aria-hidden />
             </h2>
             <p className="description">
-              Procyon Studios is a new independent game studio, currently at work on its first game.
+              <span className="brand">Procyon Studios</span> is a new independent game studio, currently at work on
+              its first game.
             </p>
           </div>
           <div>

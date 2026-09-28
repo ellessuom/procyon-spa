@@ -17,6 +17,7 @@ export default function App() {
         <Scene />
       </Canvas>
       <Overlay />
+      <div className="crt" aria-hidden />
     </>
   )
 }
