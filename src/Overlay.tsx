@@ -4,7 +4,7 @@ import { FiArrowDown, FiArrowRight, FiMail } from 'react-icons/fi'
 import { SiDiscord, SiInstagram, SiSteam, SiX, SiYoutube } from 'react-icons/si'
 import { FLICKER, pose, tl } from './timeline'
 import { go, setupSections } from './sections'
-import { LOCKUP, VIEW_H } from './Logo'
+import { MARK, VIEW_H } from './Logo'
 
 // Placeholders: swap in the real addresses.
 const LINKS = [
@@ -53,12 +53,12 @@ export default function Overlay() {
   useLayoutEffect(() => {
     const q = gsap.utils.selector(root)
 
-    // Section B's logo position comes from the DOM: fit the lockup into #logo-slot (world units, camera z=8).
+    // Section B's logo position comes from the DOM: centre the skull alone in #logo-slot (world units, camera z=8).
     const measure = () => {
       const r = slot.current.getBoundingClientRect()
       const k = VIEW_H / innerHeight
-      pose.y = (innerHeight / 2 - (r.top + r.height / 2)) * k
-      pose.scale = Math.min((r.height * k) / LOCKUP.h, (r.width * k) / LOCKUP.w)
+      pose.scale = Math.min((r.height * k) / MARK.h, (r.width * k) / MARK.w)
+      pose.y = (innerHeight / 2 - (r.top + r.height / 2)) * k - MARK.cy * pose.scale
     }
     measure()
     addEventListener('resize', measure)

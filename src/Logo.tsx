@@ -11,13 +11,14 @@ import { anim, pose } from './timeline'
 const W = 330
 const H = 488
 const S = 2.9 / H
-/** Lockup size in world units at scale 1 (for fitting it into a DOM rect). */
-export const LOCKUP = { w: W * S, h: H * S }
+const LOCKUP_W = W * S
 const LIFT = 0.3 // section A: the lockup sits a touch above centre
 export const VIEW_H = 2 * 8 * Math.tan(THREE.MathUtils.degToRad(35 / 2)) // visible height at the camera distance
 const MARK_DEPTH = 16
 const WORD_DEPTH = 10
 const MARK_CENTER = new THREE.Vector3(0, (H / 2 - 146) * S, 0)
+/** The skull alone (mark viewBox 205 × 294), world units at scale 1, and its centre's offset from the group origin. */
+export const MARK = { w: 205 * S, h: 294 * S, cy: MARK_CENTER.y }
 
 function build() {
   const loader = new SVGLoader()
@@ -60,6 +61,8 @@ export default function Logo() {
     [],
   )
   const letterMats = useMemo(() => letters.map(() => material.clone()), [letters, material])
+  // each letter drops out (and back in) at its own point as anim.word falls, so the order looks random
+  const wordThreshold = useMemo(() => letters.map(() => 0.08 + Math.random() * 0.8), [letters])
   const letterMeshes = useRef<THREE.Mesh[]>([])
   const group = useRef<THREE.Group>(null!)
   const size = useThree((s) => s.size)
@@ -67,7 +70,7 @@ export default function Logo() {
   useFrame(() => {
     // Section A: centred, shrunk to fit narrow (portrait) screens. Section B: fitted into #logo-slot.
     // anim.section moves in steps() during the jump, so the logo teleports frame by frame (with jitter).
-    const fit = Math.min(1, (VIEW_H * (size.width / size.height) * 0.82) / LOCKUP.w)
+    const fit = Math.min(1, (VIEW_H * (size.width / size.height) * 0.82) / LOCKUP_W)
     const s = anim.section
     group.current.scale.setScalar(THREE.MathUtils.lerp(fit, pose.scale, s))
     group.current.position.y = THREE.MathUtils.lerp(LIFT, pose.y, s)
@@ -76,13 +79,17 @@ export default function Logo() {
     material.opacity = anim.solid
     material.emissiveIntensity = anim.hot * 3
 
-    // letters glitch in: p steps 0 → ⅓ → ⅔ → 1 — a bright jittered frame, a dim one, then settled
+    // letters glitch in: p steps 0 → ⅓ → ⅔ → 1 — a bright jittered frame, a dim one, then settled.
+    // On the way to B they glitch out the same way (one bright jittered frame, then gone).
     letters.forEach((_, i) => {
       const p = anim.letters[i].p
-      const settling = p > 0 && p < 1
-      letterMeshes.current[i].visible = p > 0
-      letterMeshes.current[i].position.x = settling ? (i % 2 ? 1 : -1) * (1 - p) * 14 : 0
-      letterMats[i].opacity = settling && p > 0.5 ? 0.45 : 1
+      const gone = anim.word <= wordThreshold[i]
+      const leaving = !gone && anim.word < wordThreshold[i] + 0.1
+      const settling = (p > 0 && p < 1) || leaving
+      const side = i % 2 ? 1 : -1
+      letterMeshes.current[i].visible = p > 0 && !gone
+      letterMeshes.current[i].position.x = leaving ? side * 8 : settling ? side * (1 - p) * 14 : 0
+      letterMats[i].opacity = settling && !leaving && p > 0.5 ? 0.45 : 1
       letterMats[i].emissiveIntensity = settling ? 2.5 : 0
     })
   })

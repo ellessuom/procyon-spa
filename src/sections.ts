@@ -34,6 +34,7 @@ export function setupSections(root: HTMLElement) {
     .set(anim, { glitchFx: 1 }, 0.001)
     .to(anim, { aberration: 0.8, duration: 0.06, ease: 'none' }, 0)
     .to(q('.cue'), { autoAlpha: 0, duration: 0.2, ease: FLICKER }, 0)
+    .to(anim, { word: 0, duration: 0.2, ease: 'none' }, 0) // PROCYON STUDIOS drops out; only the skull goes to B
     .to(anim, { section: 1, duration: 0.36, ease: 'steps(6)' }, 0)
     .set(anim, { glitchFx: 0 }, 0.36)
     .to(anim, { aberration: 0, duration: 0.3, ease: FLICKER }, 0.36)
@@ -44,6 +45,7 @@ export function setupSections(root: HTMLElement) {
     .fromTo(q('.heading'), { textShadow: RGB_SPLIT }, { textShadow: RGB_NONE, duration: 0.5, ease: FLICKER }, 0.34)
     .to(q('.description, .notify > *, .socials li'), { autoAlpha: 1, duration: 0.25, ease: FLICKER, stagger: 0.04 }, 0.5)
     .set(q('.cursor'), { autoAlpha: 1 }, 0.75)
+  sections.timeScale(1.8) // overall speed of the jump, both ways (the choreography above stays in proportion)
 
   const observer = Observer.create({
     type: 'wheel,touch',

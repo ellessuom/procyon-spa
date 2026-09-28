@@ -18,7 +18,8 @@ export const anim = {
   hot: 0, // warm glow on the 3D mark right after the cut
   aberration: 0, // extra full-screen RGB split on top of the permanent thin one
   letters: Array.from({ length: 14 }, () => ({ p: 0 })), // PROCYON + STUDIOS
-  section: 0, // 0 = A (logo centred), 1 = B (logo small, top-centre)
+  section: 0, // 0 = A (logo centred), 1 = B (skull only, small, top-centre)
+  word: 1, // wordmark shown; drops to 0 (letters glitch out) on the way to B
   glitchFx: 0, // 1 = full-canvas glitch tearing (during the A ↔ B jump)
 }
 
