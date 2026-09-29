@@ -10,10 +10,10 @@ export default function StayTuned() {
     <section className="b" aria-label="Stay tuned">
       <div ref={slot} id="logo-slot" />
       <div className="b-grid">
-        <div>
+        <div className="b-copy">
           <p className="date label">Arriving Winter 2027</p>
           <h2 className="heading">
-            <span className="heading-text">Something is being made</span>
+            <span className="heading-text">Up to no good</span>
             <span className="cursor" aria-hidden />
           </h2>
           <p className="description">
@@ -21,7 +21,7 @@ export default function StayTuned() {
             first game.
           </p>
         </div>
-        <div>
+        <div className="b-signup">
           <NotifyForm />
           <Socials />
         </div>

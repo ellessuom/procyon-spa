@@ -15,14 +15,27 @@
   min-height: 120px;
 }
 
-/* anchored to the bottom, as in the reference */
+/* anchored to the bottom, as in the reference. No breakpoint: the sign-up sits
+   beside the copy while both fit, and wraps below it when they don't */
 .b-grid {
-  display: grid;
-  grid-template-columns: 1fr minmax(300px, 620px);
-  align-items: end;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
   gap: 32px 64px;
   margin-top: auto;
   padding-top: clamp(20px, 4vh, 48px);
+}
+
+/* as wide as its content (the heading's 7.5em cap); takes what's left once the sign-up is full */
+.b-copy {
+  flex: 1 1 auto;
+}
+
+/* fills first, up to 620px; min-width: 0 lets the email field shrink on the narrowest phones */
+.b-signup {
+  flex: 999 1 300px;
+  max-width: 620px;
+  min-width: 0;
 }
 
 .date {
@@ -31,7 +44,7 @@
 }
 
 .heading {
-  max-width: 7.5em; /* breaks as SOMETHING IS / BEING MADE */
+  max-width: 7.5em; /* caps the heading (and so the copy column); UP TO NO GOOD fits on one line */
   margin: 0;
   font: 400 clamp(44px, 6vw, 88px) / 0.92 var(--display);
   letter-spacing: 0.005em;
@@ -69,19 +82,4 @@
   font-size: 0.84em;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-}
-
-@media (max-width: 760px) {
-  .b-grid {
-    grid-template-columns: 1fr;
-    gap: 28px;
-  }
-
-  #logo-slot {
-    flex-basis: 18vh;
-  }
-
-  .heading {
-    font-size: clamp(40px, 12vw, 60px);
-  }
 }
