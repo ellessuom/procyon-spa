@@ -13,6 +13,8 @@ export const anim = {
   section: 0, // 0 = A (logo centred), 1 = B (skull only, small, top-centre)
   word: 1, // wordmark shown; drops to 0 (letters glitch out) on the way to B
   glitchFx: 0, // 1 = full-canvas glitch tearing (during the A ↔ B jump)
+  sigil: 0, // the sigil ring's two border lines
+  glyphs: Array.from({ length: 24 }, () => ({ p: 0 })), // the ring's glyphs, one per path in sigil-glyphs.svg
 }
 
 /** Where the logo sits in section B, in world units — measured from the DOM (#logo-slot) by useLogoSlot. */

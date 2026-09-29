@@ -1,0 +1,28 @@
+<!-- The sigil ring's glyphs: the 24 Elder Futhark runes in order, the first at the bottom of the ring.
+     One <path> per glyph on a 24-unit grid; the 6 × 4 layout is only for editing. -->
+<svg viewBox="-4 -4 192 128" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+  <path transform="translate(0 0)" d="M8 3V21 M8 9L16 3 M8 15L16 9" /><!-- ᚠ fehu -->
+  <path transform="translate(32 0)" d="M7 21V3L17 9V21" /><!-- ᚢ uruz -->
+  <path transform="translate(64 0)" d="M8 3V21 M8 8L15 12L8 16" /><!-- ᚦ thurisaz -->
+  <path transform="translate(96 0)" d="M8 3V21 M8 3L16 8 M8 9L16 14" /><!-- ᚨ ansuz -->
+  <path transform="translate(128 0)" d="M8 21V3L15 7L8 11L16 21" /><!-- ᚱ raidho -->
+  <path transform="translate(160 0)" d="M16 4L8 12L16 20" /><!-- ᚲ kaunan -->
+  <path transform="translate(0 32)" d="M6 3L18 21 M18 3L6 21" /><!-- ᚷ gebo -->
+  <path transform="translate(32 32)" d="M8 21V3L15 7.5L8 12" /><!-- ᚹ wunjo -->
+  <path transform="translate(64 32)" d="M7 3V21 M17 3V21 M7 9L17 15" /><!-- ᚺ hagalaz -->
+  <path transform="translate(96 32)" d="M12 3V21 M8 9L16 15" /><!-- ᚾ naudiz -->
+  <path transform="translate(128 32)" d="M12 3V21" /><!-- ᛁ isaz -->
+  <path transform="translate(160 32)" d="M11 4L6 9L11 14 M13 10L18 15L13 20" /><!-- ᛃ jera -->
+  <path transform="translate(0 64)" d="M12 3V21 M12 3L16 7 M12 21L8 17" /><!-- ᛇ eihwaz -->
+  <path transform="translate(32 64)" d="M8 3V21 M8 3L14 8L17 5 M8 21L14 16L17 19" /><!-- ᛈ perthro -->
+  <path transform="translate(64 64)" d="M12 3V21 M12 10L6 4 M12 10L18 4" /><!-- ᛉ algiz -->
+  <path transform="translate(96 64)" d="M15 3L8 10L16 14L9 21" /><!-- ᛊ sowilo -->
+  <path transform="translate(128 64)" d="M12 3V21 M6 9L12 3L18 9" /><!-- ᛏ tiwaz -->
+  <path transform="translate(160 64)" d="M8 3V21 M8 3L15 7.5L8 12L15 16.5L8 21" /><!-- ᛒ berkanan -->
+  <path transform="translate(0 96)" d="M6 21V3L12 9L18 3V21" /><!-- ᛖ ehwaz -->
+  <path transform="translate(32 96)" d="M6 21V3 M18 21V3 M6 3L18 12 M18 3L6 12" /><!-- ᛗ mannaz -->
+  <path transform="translate(64 96)" d="M9 21V3L16 9" /><!-- ᛚ laguz -->
+  <path transform="translate(96 96)" d="M12 5L17 12L12 19L7 12Z" /><!-- ᛜ ingwaz -->
+  <path transform="translate(128 96)" d="M6 3V21 M18 3V21 M6 3L18 21 M18 3L6 21" /><!-- ᛞ dagaz -->
+  <path transform="translate(160 96)" d="M12 3L18 9L7 21 M12 3L6 9L17 21" /><!-- ᛟ othala -->
+</svg>

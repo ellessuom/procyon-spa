@@ -44,6 +44,8 @@ Hooks that mutate three.js objects in `useFrame` use `/* eslint-disable react-ho
 
 **Post effects.** Post effects live in `scene/effects/`. A permanent thin chromatic aberration is part of the look, and `anim.aberration` and `anim.glitchFx` add to it.
 
+**Sigil ring.** `scene/sigil/` draws a huge, faint, slowly spinning ring of runes behind the logo. Its centre sits on the top edge of the view, so only the lower half shows. It is sized to wrap the section-A lockup (`layout.ts`) and keeps that size in B, where it rises until its inner line's lowest point sits mid-screen (stepped by `anim.section`, so it jumps with the logo). The glyphs are the 24 Elder Futhark runes, drawn as our own paths in `assets/sigil-glyphs.svg`, one `<path>` per glyph in ring order, and `anim.glyphs` needs one entry per path. After the intro, `animation/sigilIdle.ts` makes a random glyph stutter every 6–10 s.
+
 **Email sign-up.** The Notify form is our own UI. `useNotifyForm` posts it to Kit's public form endpoint: no API key, and no Kit embed or styling. Kit answers 200 even when it doesn't add the subscriber, so check the JSON `status`:
 
 - `"success"` means the subscriber was added.
@@ -57,7 +59,7 @@ Headless browsers are always quarantined, so automated tests never create a real
 
 ## Conventions
 
-- Files stay short (about 80 lines or fewer). Components only compose JSX. Per-frame and effect logic goes in `useX` hooks next to the component, and pure math goes in plain `.ts` modules. Use the existing feature folders: `animation/`, `navigation/`, `scene/{logo,morph,effects}`, `overlay/{hooks,notify,socials}` and `styles/`.
+- Files stay short (about 80 lines or fewer). Components only compose JSX. Per-frame and effect logic goes in `useX` hooks next to the component, and pure math goes in plain `.ts` modules. Use the existing feature folders: `animation/`, `navigation/`, `scene/{logo,morph,effects,sigil}`, `overlay/{hooks,notify,socials}` and `styles/`.
 - Prefer library effects (drei, @react-three/postprocessing, GSAP plugins such as SplitText, Observer and RoughEase) over hand-written ones. Write custom code only where no library fits, such as the morph shader. `FLICKER` in `animation/eases.ts` is the shared glitch ease.
 - The site deliberately **ignores `prefers-reduced-motion`**. The owner chose this, so don't add reduced-motion handling back unless asked.
 - These placeholders are known and still need fixing: in `overlay/socials/links.ts` the social links are `#` and the email is a placeholder.

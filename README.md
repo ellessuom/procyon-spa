@@ -24,10 +24,10 @@ Debug URL param: `?t=0.8` freezes the intro at that second (handy for screenshot
 src/
 ├── animation/    GSAP timelines + the shared `anim` state they write (framework-free)
 ├── navigation/   A ↔ B section state and input (wheel, touch, keys)
-├── scene/        R3F canvas content: lighting, post effects, 3D logo, shader morph
+├── scene/        R3F canvas content: lighting, post effects, 3D logo, shader morph, sigil ring
 ├── overlay/      DOM layer: corners, scroll cue, section B, notify form, socials
 ├── styles/       global CSS partials, imported in cascade order by index.css
-└── assets/       logo SVGs (logo.svg is the source artwork)
+└── assets/       logo SVGs (logo.svg is the source artwork), sigil runes
 ```
 
 GSAP timelines write plain numbers into `animation/state.ts`, and the R3F `useFrame` hooks read them every frame. React never re-renders during the animation.

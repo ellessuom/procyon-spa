@@ -1,5 +1,6 @@
 import gsap from 'gsap'
 import { FLICKER } from './eases'
+import { startSigilIdle } from './sigilIdle'
 import { anim } from './state'
 
 // ?t=0.8 freezes the intro on that second (for screenshots)
@@ -39,6 +40,12 @@ introTimeline
   .to(anim.letters, { p: 1, duration: 0.14, ease: 'steps(3)', stagger: 0.035 }, 1.2)
   .to(anim, { aberration: 0.7, duration: 0.05, ease: 'none' }, 1.2)
   .to(anim, { aberration: 0, duration: 0.45, ease: FLICKER }, 1.25)
+
+// 4b · the sigil ring behind it lights up on the cut (anim.hot flares it), then its glyphs glitch in at random
+introTimeline
+  .to(anim, { sigil: 1, duration: 0.35, ease: FLICKER }, 1.12)
+  .to(anim.glyphs, { p: 1, duration: 0.25, ease: FLICKER, stagger: { each: 0.015, from: 'random' } }, 1.25)
+  .call(startSigilIdle)
 
 /** 5 · the corners and the scroll cue flicker in right after the wordmark. Returns a cleanup. */
 export function addOverlayIntro(root: HTMLElement) {
