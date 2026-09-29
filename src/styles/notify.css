@@ -74,3 +74,23 @@
 .field:focus-within {
   border-bottom-color: var(--ivory);
 }
+
+.field button:disabled {
+  opacity: 0.5;
+  cursor: progress;
+}
+
+.consent {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Kit's bot-check link, shown in place of the result when a sign-up is flagged */
+.noted a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  pointer-events: auto;
+}
