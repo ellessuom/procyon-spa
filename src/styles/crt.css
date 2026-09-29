@@ -56,11 +56,3 @@
     opacity: 1;
   }
 }
-
-.reduced .crt::before {
-  animation: none;
-}
-
-.reduced .crt::after {
-  display: none;
-}

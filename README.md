@@ -16,10 +16,7 @@ npm run format
 npm run build    # type-check + production build to dist/
 ```
 
-Debug URL params:
-
-- `?t=0.8` freezes the intro at that second (handy for screenshots).
-- `?reduced` forces the reduced-motion path. In dev, the OS setting is ignored so the intro can be worked on.
+Debug URL param: `?t=0.8` freezes the intro at that second (handy for screenshots).
 
 ## How it's put together
 

@@ -1,5 +1,4 @@
 import { introTimeline } from '../animation/introTimeline'
-import { reducedMotion } from '../animation/motionPrefs'
 import { sectionsTimeline } from '../animation/sectionsTimeline'
 
 /** 0 = A (logo centred), 1 = B (stay tuned). */
@@ -11,7 +10,6 @@ let current: Section = 0
 export function goToSection(target: Section) {
   if (target === current || introTimeline.progress() < 1 || sectionsTimeline.isActive()) return
   current = target
-  if (reducedMotion) sectionsTimeline.progress(target)
-  else if (target) sectionsTimeline.play()
+  if (target) sectionsTimeline.play()
   else sectionsTimeline.reverse()
 }

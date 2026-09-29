@@ -1,7 +1,9 @@
 import gsap from 'gsap'
 import { FLICKER } from './eases'
-import { frozenAt, reducedMotion } from './motionPrefs'
 import { anim } from './state'
+
+// ?t=0.8 freezes the intro on that second (for screenshots)
+const frozenAt = new URLSearchParams(location.search).get('t')
 
 export const introTimeline = gsap.timeline({ paused: true })
 
@@ -51,6 +53,5 @@ export function addOverlayIntro(root: HTMLElement) {
 
 export function startIntro() {
   if (frozenAt !== null) introTimeline.pause(Number(frozenAt))
-  else if (reducedMotion) introTimeline.progress(1)
   else introTimeline.play(0)
 }
